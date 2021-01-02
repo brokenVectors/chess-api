@@ -46,7 +46,7 @@ class GameHandler(BaseHandler):
         elif format  == 'ascii':
             self.write_ascii(board)
 
-    def get_best_move(self, board: chess.Board, level: 8):
+    def get_best_move(self, board: chess.Board):
 
         """
         Retrieves the best move from the engine for the current board
@@ -72,7 +72,7 @@ class GameHandler(BaseHandler):
         Writes all of the board info in json
         """
 
-        best_move = self.get_best_move(board, self.elo)
+        best_move = self.get_best_move(board)
 
         output = OrderedDict([
 
