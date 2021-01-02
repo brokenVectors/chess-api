@@ -11,7 +11,7 @@ def setup():
     engine_paths = dict([
         ('Darwin', 'engines/stockfish/Mac/stockfish-7-64'),
         ('Linux', 'engines/stockfish/Linux/stockfish-7-x64'),
-        ('Linux2', 'engines/stockfish/Linux/stockfish-7-x64'),
+        ('Linux2', 'engines/stockfish/Linux/stockfish-7-x64')
     ])
 
     if not system in engine_paths:

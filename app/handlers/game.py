@@ -16,6 +16,9 @@ class GameHandler(BaseHandler):
 
         fen = self.get_argument('fen', None) or chess.STARTING_FEN
         move = self.get_argument('move', None)
+        level = self.get_argument('level', 8)
+
+        self.level = level
 
         try:
 
@@ -43,7 +46,7 @@ class GameHandler(BaseHandler):
         elif format  == 'ascii':
             self.write_ascii(board)
 
-    def get_best_move(self, board: chess.Board):
+    def get_best_move(self, board: chess.Board, level: 8):
 
         """
         Retrieves the best move from the engine for the current board
@@ -55,7 +58,9 @@ class GameHandler(BaseHandler):
         engine.isready()
         engine.ucinewgame()
         engine.position(board)
-
+        engine.setoption(dict([
+        ('Skill Level', level)
+    ]))
         best_move, ponder_move = engine.go()
 
         return best_move.uci()
@@ -66,7 +71,7 @@ class GameHandler(BaseHandler):
         Writes all of the board info in json
         """
 
-        best_move = self.get_best_move(board)
+        best_move = self.get_best_move(board, self.level)
 
         output = OrderedDict([
 
