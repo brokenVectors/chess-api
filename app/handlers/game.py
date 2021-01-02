@@ -16,9 +16,9 @@ class GameHandler(BaseHandler):
 
         fen = self.get_argument('fen', None) or chess.STARTING_FEN
         move = self.get_argument('move', None)
-        level = self.get_argument('level', 8)
+        elo = self.get_argument('elo', 2000)
 
-        self.level = level
+        self.elo = elo
 
         try:
 
@@ -59,7 +59,8 @@ class GameHandler(BaseHandler):
         engine.ucinewgame()
         engine.position(board)
         engine.setoption(dict([
-        ('Skill Level', level)
+        ('UCI_LimitStrength', True),
+        ('UCI_Elo', self.elo)
     ]))
         best_move, ponder_move = engine.go()
 
@@ -71,7 +72,7 @@ class GameHandler(BaseHandler):
         Writes all of the board info in json
         """
 
-        best_move = self.get_best_move(board, self.level)
+        best_move = self.get_best_move(board, self.elo)
 
         output = OrderedDict([
 
